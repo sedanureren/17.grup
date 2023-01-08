@@ -11,14 +11,16 @@ public class Queue {
 	ArrayList<Process> sira1;
 	ArrayList<Process> sira2;
 	ArrayList<Process> sira3;
-	
+	//Kuyruklara ait Arraylist tanimlari
 	public Queue() {
 		sira1 = new ArrayList<Process>();
 		sira2 = new ArrayList<Process>();
 		sira3 = new ArrayList<Process>();
+		//Kuyruklara ait ArrayList olusturur.
 	}
     public static int satirsayisi(File f) throws FileNotFoundException { 
-																			
+		//Dosyadan satir sayisini bulmak icin yazilmis bir method.
+		
 
 		Scanner dosya = new Scanner(f);
 		int satirSayisi = 0;
@@ -33,7 +35,9 @@ public class Queue {
 	}
 
 	public int donguSayi() throws FileNotFoundException {
-		File dosya = new File("C:\\Users\\Dilce\\OneDrive\\Belgeler\\giris.txt");
+		//Bu method dosyadan okunan verileri kullanarak dongu sayisini bulur. 
+        //Dongu sayisi dosyadaki islemlerin toplam suresini temsil eder.
+		File dosya = new File("giris.txt");
 
 		int counter = satirsayisi(dosya);
 		int[][] list = new int[counter][3];
@@ -58,10 +62,12 @@ public class Queue {
 		}
 		okunan.close();
 		return donusSayac;
+
+
 	}
 	
 	public ArrayList<Process> gelisZamaniBul(ArrayList<Process> kuyruk, int sure) {
-
+		// Bu metod, verilen saniye degerine gore kuyruktaki islemleri bir ArrayList'e ekler.
 		ArrayList<Process> araci = new ArrayList<Process>();
 
 		for (Process yeni : kuyruk) {
@@ -74,8 +80,9 @@ public class Queue {
 	}
 
 	public ArrayList<Process> object() throws FileNotFoundException {
-
-		File dosya = new File("C:\\Users\\Dilce\\OneDrive\\Belgeler\\giris.txt");
+		// Bu metod, dosyadan okunan verileri kullanarak Process nesneleri olusturur.   
+        // Olusturulan nesneler bir ArrayList'e eklenir ve bu ArrayList dondurulur..
+		File dosya = new File("giris.txt");
 		int donusSayac = 0;
 		Scanner dosyaIslem = new Scanner(dosya);
 		int satir = satirsayisi(dosya);
@@ -105,12 +112,16 @@ public class Queue {
 		}
 		ArrayList<Process> nesne = new ArrayList<Process>(Arrays.asList(is));
 		return nesne;
+
+
 	}
 
 	
 
 	public ArrayList<ArrayList> kuyrukKontrol(ArrayList<Process> kuyrukSaniye, ArrayList<Process> gercekZaman, ArrayList<Process> kullanici) {
-
+    // Bu metod, kuyrukSaniye ArrayList'indeki islemleri onceliklerine gore kuyruklara ekler.
+    // Gercek zaman ve kullanici kuyruklarýnýn son hali, araci ArrayList'ine eklenir ve döndürülür.
+        
 		for (Process eleman : kuyrukSaniye) 
 		{
 
@@ -130,6 +141,8 @@ public class Queue {
 		lis.set(0, gercekZaman);
 		lis.set(1, kullanici);
 		return lis;
+
+
 	}
 
 
@@ -137,19 +150,19 @@ public class Queue {
 	{
 
 		switch (Statament) {
-		case 0:
+		case 0://basladi
 			System.out.println(saniye + " sn proses baþladý(id:" + isletilen.Id + "\töncelik:"+ isletilen.priority + "\tkalan süre:" + isletilen.calismaZaman + ")");
 			break;
-		case 1:
+		case 1://yurutuluyor
 			System.out.println(saniye + " sn proses yürütülüyor\t(id:" + isletilen.Id + "\töncelik:"+ isletilen.priority  + "\tkalan süre:" + isletilen.calismaZaman + ")");
 			break;
-		case 2:
+		case 2://askida
 			System.out.println(saniye + " sn proses askida\t\t(id:" + isletilen.Id + "\töncelik:"+ isletilen.priority  + "\tkalan süre:" + isletilen.calismaZaman+ ")");
 			break;
-		case 3:
+		case 3://sonlandi
 			System.out.println(saniye + " sn proses sonlandi\t\t(id:" + isletilen.Id + "\toncelik:"+ isletilen.priority + "\tkalan süre:" + isletilen.calismaZaman + ")");
 			break;
-		case 4:
+		case 4://zamanasimi
 			System.out.println(saniye + " sn proses zaman aþýmýna uðradý\t\t(id:" + isletilen.Id + "\töncelik:"+ isletilen.priority  + "\tkalan süre:" + isletilen.calismaZaman + ")");
 			break;
 		}
@@ -157,6 +170,7 @@ public class Queue {
 
 	public ArrayList<Process> asimKontrol(ArrayList<Process> list, int saniye)
 	{
+		 //bu method, zaman asimina ugrayan bir fonksiyon varsa belirler ve siler.
 		int i = list.size();
 		if (i == 0)
 			return list;
@@ -171,19 +185,21 @@ public class Queue {
 			}
 		}
 		return list;
+
+
 	}
 	public Process gercekzaman(ArrayList<Process> gercekZaman, Process isletilen, int saniye)
 	{
-
-		if (isletilen.Id == -1) { 
+		//Bu metod, gercekZaman kuyrugundaki islemleri isleme alir ve isleme alinan islemlerin onceliklerine gore islemlerin yurutulmesine veya askiya alinmasina karar verir.
+		if (isletilen.Id == -1) { //Veri ilk process ise process baslatilir.
 			isletilen = gercekZaman.get(0);
 			Yaz(saniye, 0, isletilen);
 			isletilen.calismaZaman -= 1;
-		} else if ((isletilen.priority  == 0) && (isletilen.calismaZaman != 0)) { 
+		} else if ((isletilen.priority  == 0) && (isletilen.calismaZaman != 0)) { //Verinin calisma suresi varsa yurutulur.
 																							
 			Yaz(saniye, 1, isletilen);
 			isletilen.calismaZaman -= 1;
-		} else if ((isletilen.priority == 0) && (isletilen.calismaZaman == 0)) {
+		} else if ((isletilen.priority == 0) && (isletilen.calismaZaman == 0)) {//Verinin calisma suresi kalmadiysa sonlandirilir.
 																						
 																							
 			Yaz(saniye, 3, isletilen);
@@ -195,7 +211,8 @@ public class Queue {
 				isletilen.calismaZaman -= 1;
 			}
 		} 
-		else
+		else    //Process onceligi 0 olmayan bir processten gelirse gelen process askiya alinir.
+				//gercek zamanli process baslatilir.
 		{ 
 			isletilen.asim = saniye;
 			Yaz(saniye, 2, isletilen);
@@ -204,20 +221,23 @@ public class Queue {
 			isletilen.calismaZaman--;
 		}
 
-		sira1 = asimKontrol(sira1 , saniye);
+		sira1 = asimKontrol(sira1 , saniye); //verilerin zaman asimi kontrolu yapilir.
 																
 		sira2 = asimKontrol(sira2 , saniye);
+
 		sira3 = asimKontrol(sira3, saniye);
 
 		return isletilen;
+
+
 	}
 
 	
 	
-	public Process kullaniciKuyruk(ArrayList<Process> kullanici, Process isletilen, int saniye)
+	public Process kullaniciKuyruk(ArrayList<Process> kullanici, Process isletilen, int saniye)//kullaniciKuyruk kuyrugu 1,2 ve 3 oncelikli processleri isler.
 	{
 
-		for (Process proses : kullanici) {
+		for (Process proses : kullanici) { //oncelik sirasina gore priority kisimlarina dagitilir.
 													
 			if (proses.priority  == 1)
 			{
@@ -231,26 +251,29 @@ public class Queue {
 			}
 		}
 
-		if (!sira1.isEmpty()) { // 1 Ã–ncelikli proses var ise ilk Ã¶nce Ã§alÄ±ÅŸtÄ±rÄ±lÄ±r.
+		if (!sira1.isEmpty()) { //oncelik 1 ise ilk once calistirilir.
 			if (isletilen.priority  != 0 && isletilen.priority  != -1 && isletilen.calismaZaman != 0) 
 			{
 				Yaz(saniye, 2, isletilen);
 			}
-			isletilen.asim = saniye; // Zaman aÅŸÄ±mÄ± kontrolÃ¼ iÃ§in gÃ¼ncelleme yapÄ±lÄ±r.
+			isletilen.asim = saniye; //Zaman asimi kontrolu icin guncelleme yapilir.
 			isletilen = sira1.get(0);
 			sira1.remove(0);
-			if ((isletilen.calismaZaman- 1) > 0) { // Prosesin Ã§alÄ±ÅŸma zamanÄ±na gÃ¶re 3 satÄ±rda iÅŸenir
-				Yaz(saniye, 0, isletilen); // eÄŸer proses sonlanma sÃ¼resi bitmediyse Ã¶nceliÄŸi arttÄ±rÄ±larak
-				isletilen.calismaZaman --; // priority 2 ye atÄ±lÄ±r.
+			if ((isletilen.calismaZaman- 1) > 0) { //processin calisma zamanina gore 3 satirda islenir eger sonlanma suresi bitmediyse onceligi arttirilarak priority 2 ye atilir.
+				Yaz(saniye, 0, isletilen); 
+				isletilen.calismaZaman --; 
 				isletilen.priority ++;
 				sira2.add(isletilen);
-			} else if (isletilen.priority  == 1) { // Procesin Ã§alÄ±ÅŸma zamanÄ± 1 saniye ise proses
-															// sonlandÄ±rÄ±lÄ±r.
+			} 
+			
+			else if (isletilen.priority  == 1) {//calisma zamani 1 saniye ise sonlandirilir.
+															
 				Yaz(saniye, 0, isletilen);
 				isletilen.calismaZaman--;
 				isletilen.priority ++;
 				Yaz(saniye, 3, isletilen);
 			} 
+
 			else
 			{
 				isletilen.calismaZaman--;
@@ -259,7 +282,7 @@ public class Queue {
 			}
 
 		} 
-		else if (!sira2.isEmpty()) 
+		else if (!sira2.isEmpty())  //1 oncelikli process var ise bitmesini bekler ve bittiginde calistirilir.
 		{ 
 												
 			if (isletilen.priority  != 0 && isletilen.priority  != -1 && isletilen.calismaZaman != 0) 
@@ -274,10 +297,9 @@ public class Queue {
 				Yaz(saniye, 0, isletilen);
 				isletilen.calismaZaman --;
 				isletilen.priority ++;
-				// activeProcess.asimZamani=saniye;
 				sira3.add(isletilen);
-				// ekran(saniye, 2, activeProcess);
 			} 
+
 			else if (isletilen.calismaZaman == 1)
 			{
 				Yaz(saniye, 0, isletilen);
@@ -285,6 +307,8 @@ public class Queue {
 				isletilen.priority ++;
 				Yaz(saniye, 3, isletilen);
 			} 
+
+
 			else {
 				isletilen.calismaZaman--;
 				isletilen.priority ++;
@@ -292,8 +316,8 @@ public class Queue {
 			}
 
 		} 
-		else if (!sira3.isEmpty()) { // 1 ve 2 Ã–ncelikli proses var ise bitmesini bekler ve bittiÄŸinde
-												// Ã§alÄ±ÅŸtÄ±rÄ±lÄ±r.
+		else if (!sira3.isEmpty()) { //1 ve 2 oncelikli process var ise bitmesini bekler ve bittiginde calistirilir.
+												
 			if (isletilen.priority  != 0 && isletilen.priority  != -1 && isletilen.priority  != 0) 
 			{
 				Yaz(saniye, 2, isletilen);
@@ -305,28 +329,54 @@ public class Queue {
 			{
 				Yaz(saniye, 0, isletilen);
 				isletilen.calismaZaman--;
-				// activeProcess.asimZamani=saniye;
 				sira3.add(isletilen);
-				// ekran(saniye, 2, activeProcess);
-			} else if (isletilen.calismaZaman == 1) 
+			} 
+			
+			else if (isletilen.calismaZaman == 1) 
 			{
 				Yaz(saniye, 0, isletilen);
 				isletilen.calismaZaman--;
 				Yaz(saniye + 1, 3, isletilen);
-			} else {
+			}
+			
+			
+			else {
 				isletilen.calismaZaman --;
 			    Yaz(saniye, 3, isletilen);
 			}
 		}
 
-		sira1 = asimKontrol(sira1, saniye);
+		sira1 = asimKontrol(sira1, saniye);//zaman asimi kontrolu yapilir.
 		sira2 = asimKontrol(sira2, saniye);
 		sira3 = asimKontrol(sira3, saniye);
 
 		return isletilen;
+
+
 	}
 
 	
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
