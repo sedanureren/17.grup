@@ -16,10 +16,10 @@ public class App {
         ArrayList<ArrayList> gecmisZaman = new ArrayList<ArrayList>();
         Process isletilen = new Process(ilk);
         ArrayList<Process> al = kuyruk.object();
-        for(int sn=0; sn<don ; sn++){        
+        for(int sn=0; sn<don ; sn++){     //process zamaný hesaplanir.   
             gecmisZaman = kuyruk.kuyrukKontrol(kuyruk.gelisZamaniBul(al,sn), gercekZaman, kullanici);
-            gercekZaman = gecmisZaman.get(0);   
-            kullanici = gecmisZaman.get(1);     
+            gercekZaman = gecmisZaman.get(0);   //gercekZaman methoduna gelen saniyedeki veriler eklenir.
+            kullanici = gecmisZaman.get(1);     //kullanici methoduna gelen saniyedeki veriler eklenir.
 
             if (!gercekZaman.isEmpty())
             {
@@ -35,3 +35,15 @@ public class App {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
